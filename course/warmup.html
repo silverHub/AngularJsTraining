@@ -1,1 +1,348 @@
-WARMUP
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>AngularJs Warming up</title>
+
+		<meta name="description" content="Introductory training for AngularJs">
+		<meta name="author" content="Tamas Hoffman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/beige.css" id="theme">
+		<link rel="stylesheet" href="css/main.css">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body class="warmup">
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<img id="angularLogo"src="img/angularJs.png">
+					<h1>AngularJs</h1>
+					<h3>Warming up</h3>
+					<p>
+						<small>Created by <a href="https://github.com/silverHub/AngularJsTraining">Tamas Hoffman</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Agenda</h2>
+					<ul>
+						<li>Key features</li>
+						<li>Behind the scenes</li>
+						<li>Angular application building blocks</li>
+						<ul>
+							<li>Directives</li>
+							<li>Filters</li>
+							<li>Controllers</li>
+							<li>Services / Factories</li>
+							<li>Modules</li>
+							<li>Router</li>
+						</ul>
+					</ul>
+				</section>
+				<section>
+					<h2>Key features</h2>
+					<p>
+						<blockquote cite="https://docs.angularjs.org/guide/introduction">
+							"Angular is what HTML would have been, had it been designed for applications."
+						</blockquote>
+					</p>
+					<ul>
+						<li class="fragment">client side MVC <strong>framework</strong></li>
+						<li class="fragment">SPA support</strong></li>
+						<li class="fragment">Declarative UI + dynamic templating</li>
+						<li class="fragment">DI + 2 way data-binding</li>
+						<li class="fragment">Testability in mind (unit/e2e) </strong></li>
+					</ul>
+
+					<aside class="notes">
+        		Angular is not a library!
+						Single page app support, where communication is JSON based and all the routing are done on frontend.
+
+    			</aside>
+				</section>
+				<section>
+					<section >
+						<h2>Sample app</h2>
+						<div id="appContainer">
+							<div data-ng-app="">
+								<input autofocus data-ng-model="name" type="text">
+								<p>{{ 'Hello ' + name }}</p>
+							</div>
+						</div>
+<pre><code><!-- The simplest possible app! -->
+<div data-ng-app="">
+	<input data-ng-model="name" />
+	<p>{{ 'Hello ' + name }}</p>
+</div>
+</code></pre>
+					</section>
+					<section data-background="#3F3F3F">
+						<h3 class="declarativeUiTitle">Declarative UI</h3>
+						<a class="plnkr" href="http://embed.plnkr.co/ZaUCZ6HTNvtQahB0a905/" target="blank"><img class="sampleApp" src="img/sampleApp.png" /></a>
+					</section>
+					<section>
+						<h2>Behind the scenes</h2>
+						<img class="width80" src="img/two-way-db.png" />
+					</section>
+				</section>
+				<section>
+					<section>
+					<h2>Application building blocks</h2>
+					<img src="img/angular_features.jpg" />
+					</section>
+					<section>
+						<h3><a href="https://docs.angularjs.org/api/ng/directive" target="_blank">Standard Directives</a></h3>
+
+						<!-- Sample app for DOM manipulation for AngularJs training. -->
+						<iframe src="http://embed.plnkr.co/2qB7slKeg6x9n9idTZb9/" frameborder="0"></iframe>
+						<ul>
+							<li> no manual DOM manipulation!</li>
+							<li> custom directives</li>
+						</ul>
+					</section>
+					<section>
+						<h3><a href="https://docs.angularjs.org/api/ng/filter" target="_blank">Filters</a></h3>
+<pre><code><ul>
+	<!-- Filter without parameter -->
+	<li data-ng-repeat="person in persons"> {{person | uppercase}} </li>
+</ul></code></pre>
+<pre><code><ul>
+	<!-- Filter with parameter (filterText) -->
+	<li data-ng-repeat="person in persons | filter:filterText">
+		{{ person }}
+	</li>
+</ul></code></pre>
+					</section>
+					<section>
+						<!-- Sample app for freetext search for AngularJs training. -->
+						<iframe src="http://embed.plnkr.co/1tHmQ0znGcEaeY0PpZRu/" frameborder="0"></iframe>
+					</section>
+					<section>
+						<!-- Sample app for list manager for AngularJs training. -->
+						<iframe src="http://embed.plnkr.co/gEMT023eLv6iCO4kktRu/" frameborder="0"></iframe>
+						<ul>
+							<li> directives + filters are powerful</li>
+							<li> everything is on the view! ;( </li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Separation of concerns</h2>
+						<img src="img/MVC.png" />
+					</section>
+					<section>
+						<h2>Controllers</h2>
+<pre><code>//Definition of controller in .js file
+
+angular.module('ListManager', [])
+  .controller('ListManagerController', ListManagerController);
+
+function ListManagerController($scope) {
+	$scope.name = 'Hope';
+}
+</code></pre>
+<pre><code><!-- View -->
+<div data-ng-app="ListManager" data-ng-controller="ListManagerController">
+	{{name}}
+</div>
+</code></pre>
+					</section>
+					<section>
+						<h2>Controllers scope</h2>
+						<ul>
+							<li> plain js object</li>
+							<li> $scope = ViewModel</li>
+						</ul>
+						<img src="img/scope.png" />
+					</section>
+					<section>
+						<!-- Sample app for list manager with controller for AngularJs training. -->
+						<iframe src="http://embed.plnkr.co/LEt3W7ZpN51qm2LD9rFt/" frameborder="0"></iframe>
+					</section>
+					<section>
+						<h2>Services / Factories</h2>
+						<ul>
+							<li> encapsulate business logic</li>
+							<li> can be injected into controllers</li>
+							<li> singletons </li>
+						</ul>
+					</section>
+					<section>
+<pre><code>
+// FlagManager factory
+function FlagManagerFactory(){
+  var flag;
+  return {
+    get : function get(){
+      return flag;
+    },
+    set : function set(newValue){
+      flag = newValue;
+    }
+  };
+}
+</code></pre>
+<pre><code>
+// FlagManager service
+function FlagManagerService(){
+  var flag = null;
+  this.get = function get(){
+    return flag;
+  };
+  this.set = function set(newValue){
+    flag = newValue;
+  };
+}
+</code></pre>
+					</section>
+					<section>
+						<!-- Sample app for list manager with controller and factory for AngularJs training. -->
+						<iframe src="http://embed.plnkr.co/bi0dzeOFTYopE68GB2Ej/" frameborder="0"></iframe>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Modules</h2>
+						<img class="width80" src="img/modules.png" />
+					</section>
+					<section>
+						<h2>Module definition</h2>
+<pre><code>
+// Module declaration
+angular.module('Main', []);
+
+// Module with dependencies
+angular.module('Main', ['FlagHandlerModule','HttpCallerModule']);
+
+// Module reference
+angular.module('Main');
+
+</code></pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Router</h2>
+						<ul>
+							<li> you can split webapplication into pages </li>
+							<li> router is not part of core angular   <br/><strong>you need to include angular-route.js</strong></li>
+							<li> angular uses #fragment to define routes </li>
+						</ul>
+						<p>URL: scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</p>
+					</section>
+					<section>
+						<h2>Defining routes to a module</h2>
+<pre><code>
+angular.module('demoApp', [])
+  .config(function ($routeProvider){
+     $routeProvider
+      .when('/',
+        {
+          controller: 'Controller1',
+          templateUrl: 'View1.html'
+        })
+      .when('/',
+        {
+          controller: 'Controller1',
+          templateUrl: 'View2.html'
+        })
+      .otherwise({ redirectTo: '/' });
+});
+</code></pre>
+					</section>
+					<section>
+						<!-- Sample app for routing -->
+						<iframe src="http://embed.plnkr.co/VWUIHAf17PXQsgGX6u0T/" frameborder="0"></iframe>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Summary</h2>
+						<ul>
+							<li>we are started with a greeter app...</li>
+							<li class="fragment">Directives(+Filters) - teach new tricks to HTML</li>
+							<li class="fragment">Controllers - separate concerns</li>
+							<li class="fragment">Modules - container of building blocks</li>
+							<li class="fragment">Router - split the application to pages</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h2>Resources</h2>
+					<ul>
+						<li><a target="_blank" href="https://www.google.ch/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwi51O7yvPjLAhWE0xQKHcrEBE4QyCkIHjAA&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Di9MHigUZKEM&usg=AFQjCNEU_mAxsnSV9ghbkCyUX-B_BySmXg&sig2=76YJKlni1Gr8mj43H9pEXw&bvm=bv.118443451,d.ZWU">AngularJs fundamentals in 60 minutes</a></li>
+						<li><a target="_blank" href="http://www.codeproject.com/Articles/869712/AngularJS">AngularJS - The Next Big Thing</a></li>
+						<li><a target="_blank" href="https://angular-ui.github.io/bootstrap/">Boostrap with Angular</a></li>
+					</ul>
+					<p>
+						<small>Slides: <a href="https://github.com/silverHub/AngularJsTraining">https://github.com/silverHub/AngularJsTraining</a></small>
+					</p>
+				</section>
+				<section data-background="img/question.jpg">
+					<h2 style="background-color:white;opacity:0.8;">Questions?</h2>
+				</section>
+				<section>
+					<h2>Thanks for the attention!</h2>
+				</section>
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+	</body>
+</html>
