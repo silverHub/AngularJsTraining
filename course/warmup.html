@@ -192,6 +192,12 @@ function ListManagerController($scope) {
 					</section>
 					<section>
 						<h2>Services / Factories</h2>
+<pre><code>
+//Define services/factories
+angular.module('demoApp',[])
+  .service('FlagManagerService',FlagManagerService)
+  .factory('FlagManagerFactory',FlagManagerFactory);
+</code></pre>
 						<ul>
 							<li> encapsulate business logic</li>
 							<li> can be injected into controllers</li>
@@ -291,7 +297,7 @@ angular.module('demoApp', [])
 					<section>
 						<h2>Summary</h2>
 						<ul>
-							<li>we are started with a greeter app...</li>
+							<li>we are started with a simplest app and learnt about...</li>
 							<li class="fragment">View( or Template) - plain HTML</li>
 							<li class="fragment">Directives(+Filters) - teach new tricks to HTML</li>
 							<li class="fragment">Controllers - separate concerns</li>
