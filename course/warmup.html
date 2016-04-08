@@ -266,17 +266,17 @@ angular.module('Main');
 angular.module('demoApp', [])
   .config(function ($routeProvider){
      $routeProvider
-      .when('/',
+      .when('/display',
         {
           controller: 'Controller1',
           templateUrl: 'View1.html'
         })
-      .when('/',
+      .when('/edit',
         {
           controller: 'Controller1',
           templateUrl: 'View2.html'
         })
-      .otherwise({ redirectTo: '/' });
+      .otherwise({ redirectTo: '/display' });
 });
 </code></pre>
 					</section>
@@ -290,6 +290,7 @@ angular.module('demoApp', [])
 						<h2>Summary</h2>
 						<ul>
 							<li>we are started with a greeter app...</li>
+							<li class="fragment">View( or Template) - plain HTML</li>
 							<li class="fragment">Directives(+Filters) - teach new tricks to HTML</li>
 							<li class="fragment">Controllers - separate concerns</li>
 							<li class="fragment">Modules - container of building blocks</li>
