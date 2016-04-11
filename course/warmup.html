@@ -116,7 +116,7 @@
 								<p>{{ 'Hello ' + name }}</p>
 							</div>
 						</div>
-<pre><code><!-- The simplest possible app! -->
+<pre><code class="html"><!-- The simplest possible app! -->
 <div data-ng-app="">
 	<input data-ng-model="name" />
 	<p>{{ 'Hello ' + name }}</p>
@@ -180,14 +180,14 @@
 					</section>
 					<section>
 						<h2>Controllers</h2>
-<pre><code>angular.module('ListManager', [])
+<pre><code class="js">angular.module('ListManager', [])
   .controller('ListManagerController', ListManagerController);
 
 function ListManagerController($scope) {
 	$scope.name = 'Hope';
 }
 </code></pre>
-<pre><code><!-- View -->
+<pre><code class="html"><!-- View -->
 <div data-ng-app="ListManager" data-ng-controller="ListManagerController">
 	{{name}}
 </div>
@@ -208,7 +208,7 @@ function ListManagerController($scope) {
 					</section>
 					<section>
 						<h2>Services / Factories</h2>
-<pre><code>
+<pre><code class="js">
 //Define services/factories
 angular.module('demoApp',[])
   .service('FlagManagerService',FlagManagerService)
@@ -222,7 +222,7 @@ angular.module('demoApp',[])
 						</ul>
 					</section>
 					<section>
-<pre><code>// FlagManager factory
+<pre><code class="js">// FlagManager factory
 function FlagManagerFactory(){
   var flag;
   return {
@@ -235,10 +235,10 @@ function FlagManagerFactory(){
   };
 }
 </code></pre>
-<pre class="fragment"><code>// Angular instantialization
+<pre class="fragment"><code class="js">// Angular instantialization
 var inst = FlagManagerFactory(); /* { get: function, set: function } */
 </code></pre>
-<pre><code>// FlagManager service
+<pre><code class="js">// FlagManager service
 function FlagManagerService(){
   var flag = null;
   this.get = function get(){
@@ -249,7 +249,7 @@ function FlagManagerService(){
   };
 }
 </code></pre>
-<pre class="fragment"><code>// Angular instantialization
+<pre class="fragment"><code class="js">// Angular instantialization
 var inst = new FlagManagerService(); /* { get: function, set: function } */
 </code></pre>
 
@@ -266,7 +266,7 @@ var inst = new FlagManagerService(); /* { get: function, set: function } */
 					</section>
 					<section>
 						<h2>Module definition</h2>
-<pre><code>
+<pre><code class="js">
 // Module declaration
 angular.module('Main', []);
 
@@ -289,14 +289,14 @@ angular.module('Main');
 							<li> use with <strong>data-ng-view</strong> directive </li>
 						</ul>
 						<p class="tiny">URL: scheme:[//[user:password@]host[:port]][/]path[?query]<strong>[#fragment]</strong></p>
-<pre><code><!-- Example links -->
+<pre><code class="html"><!-- Example links -->
 <a href="#/edit">Go to edit</a>
 <a href="#/view">Go to view</a>
 </code></pre>
 					</section>
 					<section>
 						<h2>Defining routes to a module</h2>
-<pre><code>
+<pre><code class="js">
 angular.module('demoApp', [])
   .config(function ($routeProvider){
      $routeProvider
