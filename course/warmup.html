@@ -235,8 +235,8 @@ function FlagManagerFactory(){
   };
 }
 </code></pre>
-<pre class="fragment"><code>// Angular initialization
-	FlagManagerFactory();  /* = { get: function, set: function } */
+<pre class="fragment"><code>// Angular instantialization
+var inst = FlagManagerFactory(); /* { get: function, set: function } */
 </code></pre>
 <pre><code>// FlagManager service
 function FlagManagerService(){
@@ -249,8 +249,8 @@ function FlagManagerService(){
   };
 }
 </code></pre>
-<pre class="fragment"><code>// Angular initialization
-	new FlagManagerService();  /* = { get: function, set: function } */
+<pre class="fragment"><code>// Angular instantialization
+var inst = new FlagManagerService(); /* { get: function, set: function } */
 </code></pre>
 
 					</section>
