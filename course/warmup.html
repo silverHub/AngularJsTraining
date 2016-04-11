@@ -47,7 +47,7 @@
 					<img id="angularLogo"src="img/angularJs.png">
 					<h1>AngularJs</h1>
 					<h3>Warming up</h3>
-					<p>
+					<li>
 						<small>Created by <a href="https://github.com/silverHub/AngularJsTraining">Tamas Hoffman</a></small>
 					</p>
 				</section>
@@ -55,6 +55,7 @@
 				<section>
 					<h2>Agenda</h2>
 					<ul>
+						<li>Versions</li>
 						<li>Key features</li>
 						<li>Behind the scenes</li>
 						<li>Angular application building blocks</li>
@@ -69,8 +70,26 @@
 					</ul>
 				</section>
 				<section>
+					<h2>Versions</h2>
+					<ul>
+						<li>1.x</li>
+						<ul>
+							<li>1.3 - first stable and performant version (IE8 support dropped!)</li>
+							<li>1.4 - introduced a more flexible router concept</li>
+							<li>1.5 - a transition between Angular1 and Angular2 </li>
+						</ul>
+						<li>2.0</li>
+						<ul>
+							<li>currently in BETA</li>
+							<li>target ES6 and evergreen browsers</li>
+							<li>complete rewrite of the framework (written in TypeScript)</li>
+						</ul>
+
+					</ul>
+				</section>
+				<section>
 					<h2>Key features</h2>
-					<p>
+					<li>
 						<blockquote cite="https://docs.angularjs.org/guide/introduction">
 							"Angular is what HTML would have been, had it been designed for applications."
 						</blockquote>
@@ -86,7 +105,6 @@
 					<aside class="notes">
         		Angular is not a library!
 						Single page app support, where communication is JSON based and all the routing are done on frontend.
-
     			</aside>
 				</section>
 				<section>
@@ -94,14 +112,14 @@
 						<h2>Sample app</h2>
 						<div id="appContainer">
 							<div data-ng-app="">
-								<input autofocus data-ng-model="name" type="text">
-								<p>{{ 'Hello ' + name }}</p>
+								<input data-ng-model="name" type="text">
+								<li>{{ 'Hello ' + name }}</p>
 							</div>
 						</div>
 <pre><code><!-- The simplest possible app! -->
 <div data-ng-app="">
 	<input data-ng-model="name" />
-	<p>{{ 'Hello ' + name }}</p>
+	<li>{{ 'Hello ' + name }}</p>
 </div>
 </code></pre>
 					</section>
@@ -162,9 +180,7 @@
 					</section>
 					<section>
 						<h2>Controllers</h2>
-<pre><code>//Definition of controller in .js file
-
-angular.module('ListManager', [])
+<pre><code>angular.module('ListManager', [])
   .controller('ListManagerController', ListManagerController);
 
 function ListManagerController($scope) {
@@ -197,7 +213,7 @@ function ListManagerController($scope) {
 angular.module('demoApp',[])
   .service('FlagManagerService',FlagManagerService)
   .factory('FlagManagerFactory',FlagManagerFactory);
-  
+
 </code></pre>
 						<ul>
 							<li> encapsulate business logic</li>
@@ -206,8 +222,7 @@ angular.module('demoApp',[])
 						</ul>
 					</section>
 					<section>
-<pre><code>
-// FlagManager factory
+<pre><code>// FlagManager factory
 function FlagManagerFactory(){
   var flag;
   return {
@@ -220,8 +235,10 @@ function FlagManagerFactory(){
   };
 }
 </code></pre>
-<pre><code>
-// FlagManager service
+<pre class="fragment"><code>// Angular initialization
+	FlagManagerFactory();  /* = { get: function, set: function } */
+</code></pre>
+<pre><code>// FlagManager service
 function FlagManagerService(){
   var flag = null;
   this.get = function get(){
@@ -232,6 +249,10 @@ function FlagManagerService(){
   };
 }
 </code></pre>
+<pre class="fragment"><code>// Angular initialization
+	new FlagManagerService();  /* = { get: function, set: function } */
+</code></pre>
+
 					</section>
 					<section>
 						<!-- Sample app for list manager with controller and factory for AngularJs training. -->
@@ -267,7 +288,7 @@ angular.module('Main');
 							<li> angular uses #fragment to define routes </li>
 							<li> use with <strong>data-ng-view</strong> directive </li>
 						</ul>
-						<p>URL: scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</p>
+						<li>URL: scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</p>
 					</section>
 					<section>
 						<h2>Defining routes to a module</h2>
@@ -320,7 +341,7 @@ angular.module('demoApp', [])
 						<li><a target="_blank" href="http://www.codeproject.com/Articles/869712/AngularJS">AngularJS - The Next Big Thing</a></li>
 						<li><a target="_blank" href="https://angular-ui.github.io/bootstrap/">Boostrap with Angular</a></li>
 					</ul>
-					<p>
+					<li>
 						<small>Slides: <a href="http://silverhub.github.io/AngularJsTraining">http://silverhub.github.io/AngularJsTraining</a></small>
 					</p>
 				</section>
@@ -328,7 +349,8 @@ angular.module('demoApp', [])
 					<h2 style="background-color:white;opacity:0.8;">Questions?</h2>
 				</section>
 				<section>
-					<h2>Thanks for the attention!</h2>
+					<h2>Thanks for your attention!</h2>
+					<h4>(Feedbacks appreciated!)</h4>
 				</section>
 			</div>
 
