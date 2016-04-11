@@ -47,7 +47,7 @@
 					<img id="angularLogo"src="img/angularJs.png">
 					<h1>AngularJs</h1>
 					<h3>Warming up</h3>
-					<li>
+					<p>
 						<small>Created by <a href="https://github.com/silverHub/AngularJsTraining">Tamas Hoffman</a></small>
 					</p>
 				</section>
@@ -89,7 +89,7 @@
 				</section>
 				<section>
 					<h2>Key features</h2>
-					<li>
+					<p>
 						<blockquote cite="https://docs.angularjs.org/guide/introduction">
 							"Angular is what HTML would have been, had it been designed for applications."
 						</blockquote>
@@ -113,13 +113,13 @@
 						<div id="appContainer">
 							<div data-ng-app="">
 								<input data-ng-model="name" type="text">
-								<li>{{ 'Hello ' + name }}</p>
+								<p>{{ 'Hello ' + name }}</p>
 							</div>
 						</div>
 <pre><code><!-- The simplest possible app! -->
 <div data-ng-app="">
 	<input data-ng-model="name" />
-	<li>{{ 'Hello ' + name }}</p>
+	<p>{{ 'Hello ' + name }}</p>
 </div>
 </code></pre>
 					</section>
@@ -284,11 +284,15 @@ angular.module('Main');
 						<h2>Router</h2>
 						<ul>
 							<li> you can split webapplication into pages </li>
-							<li> router is not part of core angular   <br/><strong>you need to include angular-route.js</strong></li>
+							<li> router is not part of core angular, <em>you need to include angular-route.js</em></li>
 							<li> angular uses #fragment to define routes </li>
 							<li> use with <strong>data-ng-view</strong> directive </li>
 						</ul>
-						<li>URL: scheme:[//[user:password@]host[:port]][/]path[?query][#fragment]</p>
+						<p class="tiny">URL: scheme:[//[user:password@]host[:port]][/]path[?query]<strong>[#fragment]</strong></p>
+<pre><code><!-- Example links -->
+<a href="#/edit">Go to edit</a>
+<a href="#/view">Go to view</a>
+</code></pre>
 					</section>
 					<section>
 						<h2>Defining routes to a module</h2>
@@ -341,7 +345,7 @@ angular.module('demoApp', [])
 						<li><a target="_blank" href="http://www.codeproject.com/Articles/869712/AngularJS">AngularJS - The Next Big Thing</a></li>
 						<li><a target="_blank" href="https://angular-ui.github.io/bootstrap/">Boostrap with Angular</a></li>
 					</ul>
-					<li>
+					<p>
 						<small>Slides: <a href="http://silverhub.github.io/AngularJsTraining">http://silverhub.github.io/AngularJsTraining</a></small>
 					</p>
 				</section>

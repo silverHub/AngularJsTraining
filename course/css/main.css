@@ -16,6 +16,12 @@
 .warmup .declarativeUiTitle {
   color: #F8F4DC;
 }
+.warmup strong{
+  color: red;
+}
+.warmup .tiny{
+  font-size: smaller;
+}
 .warmup #appContainer{
   min-height: 100px;
   border: 1px dotted lightgrey;
