@@ -37,6 +37,13 @@
   height: 40px;
   font-size:40px;
 }
+
+.warmup .summaryList em{
+  display:block;
+  font-size:75%;
+}
+
+class="block textSmall"
 /*.slides{
     background-image: url(../img/angularJs.png);
     background-size: 10% 10%;
