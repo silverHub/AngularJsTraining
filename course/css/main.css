@@ -1,37 +1,59 @@
+#angularLogo {
+  width:10%;
+  height:10%;
+}
 
-.warmup section img{
+.slides section img{
   border: none;
   box-shadow: none;
 }
 
-.warmup #angularLogo {
-  width:10%;
-  height:10%;
+.whiteTransparentBackground{
+  background-color:rgba(255, 255, 255, 0.8);"
 }
-.warmup .width80 {
+.resources ul{
+  list-style: none;
+  text-align: center;
+}
+/*
+.resources a{
+
+  color: black;
+  display: inline-block;
+  width: 800px;
+
+}
+.resources a:hover{
+  color: black;
+  background-color:rgba(255, 255, 255, 0.8);"
+}*/
+
+.fontSize80 {
+  font-size: 80% !important;
+}
+
+.width80 {
   width: 80%;
 }
-.warmup .sampleApp {
-}
-.warmup .declarativeUiTitle {
-  color: #F8F4DC;
-}
-.warmup strong{
+strong{
   color: red;
 }
-.warmup .tiny{
+.tiny{
   font-size: smaller;
+}
+iframe {
+  border: 1px dotted lightgrey;
+  width: 100%;
+  height: 300px;
+}
+
+.warmup .declarativeUiTitle {
+  color: #F8F4DC;
 }
 .warmup #appContainer{
   min-height: 100px;
   border: 1px dotted lightgrey;
   padding: 20px;
-
-}
-.warmup iframe {
-  border: 1px dotted lightgrey;
-  width: 100%;
-  height: 300px;
 }
 .warmup #appContainer input{
   height: 40px;
@@ -42,10 +64,3 @@
   display:block;
   font-size:75%;
 }
-
-class="block textSmall"
-/*.slides{
-    background-image: url(../img/angularJs.png);
-    background-size: 10% 10%;
-    background-repeat: no-repeat;
-}*/
