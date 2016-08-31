@@ -44,7 +44,7 @@
 				<section>
 					<img id="angularLogo"src="img/angularJs.png">
 					<h1>AngularJs</h1>
-					<h3>Workout</h3>
+					<h3>Best practices</h3>
 					<p>
 						<small>Created by <a href="https://github.com/silverHub/AngularJsTraining">Tamas Hoffman</a></small>
 					</p>
@@ -55,60 +55,152 @@
 					<ul class="fontSize80">
 						<li>Application bootstrap process</li>
             <ul>
-              <li>Dependency injection</li>
-              <li>Manual bootstrapping</li>
+              <li>Bootstrapping</li>
+							<li>App config and run block</li>
+							<li>Digest cycle</li>
+							<ul>
+									<li>Something happens out of the Angular context</li>
+							</ul>
+							<li>Manual bootstrapping</li>
               <li>Services related to bootstrap</li>
             </ul>
-						<li>Digest cycle</li>
+						<li>Best practices</li>
             <ul>
-              <li>App config and run phase</li>
-              <li>Provider / Constant</li>
-              <li>Digest loop</li>
-              <li>Services related to digest</li>
-            </ul>
-            <li>Custom directives</li>
-						<ul>
-							<li>Directive template/scope/controller</li>
-							<li>Nested directives</li>
+							<li>How to architect your app</li>
+							<li>Nesting</li>
+							<li>Custom directives</li>
+              <li>Communication through events</li>
+              <li>Handle 3rd party components</li>
+							<li>Performance</li>
+							<ul>
+								<li>One time binding</li>
+								<li>Filter in ctrl</li>
+								<li>ngRepeat with index</li>
+								<li>configure to skip DOM node annotation</li>
+							</ul>
 						</ul>
-            <li>How to architect your app</li>
-            <li>Best practices</li>
             <li>Resources</li>
 					</ul>
 					</section>
 				</section>
 				<section>
+					<section>
+						<h1>Angular application anatomy</h1>
+					</section>
           <section>
-            <h2>Angular application</h2>
             <img class="width80" src="img/webapp.jpg" />
             <aside class="notes">
               Let's just have a short recap about the angular application structure.
-              (...)
+							In Angular the highest level containers are the modules. As we already know there is dedicated module
+							which loads first that one is called the root module, every other module should be referenced from there or
+							from any subsequent modules. Every module has a config section, I'll talk about that later.
+							In a nutshell if you are employing router, than in this config section you should define your routes
+							which are basically the controller+template for a specific url. With the help of the routes you can easily split your
+							application to pages. If we go further down the hierarchy then ctrls can employ factories to outsource the business logic
+							and wiews can contain directives.
             </aside>
           </section>
+					<section class="iframe">
+						<!-- Sample app for router -->
+						<iframe src="https://embed.plnkr.co/VWUIHAf17PXQsgGX6u0T/" frameborder="0"></iframe>
+						  <aside class="notes">
+								This application is works fine, but we don't really understand yet entirely how. So let's dig deeper.
+							</aside>
+          </section>
+				</section>
+				<section>
 					<section>
-            <h2>Bootstrap process</h2>
+						<h1>Bootstrap process</h1>
+					</section>
+					<section>
             <img src="img/bootstrap.jpg">
             <aside class="notes">
-              The question is what is really happening when angular.js is loaded on our page.
+							Let's start with the application bootstrapping process, the question is what is really happening when angular.js is loaded into our page.
               Let's follow the happenings from the point when DOMContentLoaded event is fired in the browser, Angular has a listener to that event which kicks the whole framework in motion.
-              First of all Angular traverse through the DOM to find the ng-app directive, that element which contain will be the root element of our app.
-              Then Angular loads the module definition referenced in ng-app and creates the injector which will be used for the DI.
-              The injector creates the $rootScope object which will be the default context of our application.
-              And the last step is that Angular goes through the DOM tree starting from the root element, setting up the bindings and compiles directives.
-              And then just waits for the first event to come.
-              This is the big picture, that you need to see first.
-              Question is what happens if you have no ng-app in the template.
+              First of all Angular traverse through the DOM to find the ng-app directive, which marks the root element of our app.
+              Then Angular loads the module defined in ng-app and creates the injector service which will be used for the DI.
+              First the injector creates the $rootScope object which will be the default context of our application.
+              As a last step, Angular goes through the DOM tree starting from the root element, setting up the bindings and compiles directives.
+              After that our application is running and waiting for the first event to come.
             </aside>
 					</section>
+					<section class="iframe">
+						<iframe src="https://embed.plnkr.co/w4bOYWDWYOi9xjQTr2jt/" frameborder="0"></iframe>
+						<aside class="notes">
+							Here you can see the execution order of the different building blocks.
+							Some key points:
+								- only those controllers are instantiated which represented on the page
+								- factories/services are singleton, dependency injection is lazy, instances created when used
+						</aside>
+					</section>
+					<section>
+						<ul>
+							<li>Module <strong>config block</strong></li>
+							<ul>
+								<li>Place to preconfigure your services</li>
+								<li>You can inject provider and constant only</li>
+								<li>Providers are special services which provides configuration options before instance creation</li>
+								<li>e.g. $route -> $routeProvider</li>
+							</ul>
+							<li>Module <strong>run block</strong></li>
+							<ul>
+								<li>Place to execute arbitrary code</li>
+							</ul>
+						</ul>
+						<aside class="notes">
+							You can use these special blocks to preconfigure your services or execute some arbitratry code.
+							Both parameter is a function which will be run before the service instances created.
+							Very important that the injection type is limited.
+						</aside>
+					</section>
           <section>
-              injector
-              rootscope
+						<p>
+							<strong>Question:</strong> what happens if you have no ng-app on the page?
+						</p>
+						<p class="fragment">
+							<strong>Question2:</strong> what happens if you have multiple ng-app on the page?
+						</p>
+						<p class="fragment">
+							There is a way to manually bootstrap independent modules:
+						</p>
+						<p><pre><code>angular.bootstrap(angular.element('#container'), ['Main']);</code></pre></p>
+						=
+						<p><pre class="html"><code><div id="container" ng-app="Main"><!-- Content --></div></code></pre></p>
+						<aside class="notes">
+							A1: Nothings. The bootstrap process is not started, the views are not generated.
+							A2: First HTML tag with ng-app will be the root element, others will be ignored.
+							There is a way to manually bootstrap independent modules.
+						</aside>
+					</section>
+          <section class="iframe">
+              <p>
+              	Why do we need manual bootstrapping?
+              </p>
+              <ul>
+              	<li>if you would like to delay the boot process</li>
+              	<li>if you would like to run multiple angular application on the same page</li>
+              </ul>
+							<!-- Sample app for manual bootstrapping -->
+							<iframe class="fragment" src="http://embed.plnkr.co/qCxFXH2cZAtda6ZMn8eZ/" frameborder="0"></iframe>
+							<aside class="notes">
+								It can be a lifesaver in certain situations.
+							</aside>
           </section>
 
 				</section>
 				<section>
 					<section>
+						Digest cycle
+					</section>
+				</section>
+				<section>
+					<section>
+						Best practices - Architecture
+					</section>
+				</section>
+				<section>
+					<section>
+						Best practices - Performance
 					</section>
 				</section>
 				<section class="resources" >
