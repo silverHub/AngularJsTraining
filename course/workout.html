@@ -173,24 +173,39 @@
 						</aside>
 					</section>
           <section class="iframe">
-              <p>
-              	Why do we need manual bootstrapping?
-              </p>
               <ul>
-              	<li>if you would like to delay the boot process</li>
-              	<li>if you would like to run multiple angular application on the same page</li>
+								Why do we need manual bootstrapping?
+								<li class="fragment">to run multiple distinct module on the same page</li>
+              	<li class="fragment">to delay the boot process</li>
               </ul>
-							<!-- Sample app for manual bootstrapping -->
 							<iframe class="fragment" src="http://embed.plnkr.co/qCxFXH2cZAtda6ZMn8eZ/" frameborder="0"></iframe>
+							<!-- Sample app for manual bootstrapping -->
 							<aside class="notes">
-								It can be a lifesaver in certain situations.
+								Do we really need it? The thing is, this comes really handy in certain situations:
+								Think about an aggregator page where you would like to delegate only one of your module as everybody else. We have such a scenario.
+								Maybe a dozen different module aggregated on that page, rendering only parts of it.
+								It's possible that those modules coming from entirely different sources, in this case how can you pick a root module?
+								You cannot pick one because the others won't be dependencies.
+								So in this case you should initiate manually the bootprocess for every separate module.
+								There are also situations where you would like to do some DOM manipulation or server enquiry before application boot.
+								These are the typical use cases of manual bootstrapping.
+								Let's see an example code.
 							</aside>
           </section>
 
 				</section>
 				<section>
 					<section>
-						Digest cycle
+						<h1>Digest cycle</h1>
+						<aside class="notes">
+							Now you are familiar about the boot process, let's talk about digest cycle, which is the process behind Angular 2-way data binding.
+							The main question here how does Angular know about data changes.
+							Actually Angular uses a very simple trick, it registers a watcher every time you create a binding. this watcher
+							If you interact with an Angular application it will respond to your actions,
+						</aside>
+					</section>
+					<section>
+						<img src="img/digest_cycle.png" alt="" />
 					</section>
 				</section>
 				<section>
