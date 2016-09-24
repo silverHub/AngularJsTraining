@@ -66,6 +66,7 @@
             </ul>
 						<li>Best practices</li>
             <ul>
+							<li>Misc: style guide, UI bootstrap, Ionic frameworks, Batarang</li>
 							<li>How to architect your app</li>
 							<li>Nesting</li>
 							<li>Custom directives</li>
@@ -86,6 +87,7 @@
 				<section>
 					<section>
 						<h1>Angular application anatomy</h1>
+						<h6>All in one place</h6>
 					</section>
           <section>
             <img class="width80" src="img/webapp.jpg" />
@@ -111,6 +113,7 @@
 				<section>
 					<section>
 						<h1>Bootstrap process</h1>
+						<h6>Let's start</h6>
 					</section>
 					<section>
             <img src="img/bootstrap.jpg">
@@ -138,13 +141,14 @@
 							<li>Module <strong>config block</strong></li>
 							<ul>
 								<li>Place to preconfigure your services</li>
-								<li>You can inject provider and constant only</li>
+								<li>You can inject providers and constants only</li>
 								<li>Providers are special services which provides configuration options before instance creation</li>
 								<li>e.g. $route -> $routeProvider</li>
 							</ul>
 							<li>Module <strong>run block</strong></li>
 							<ul>
 								<li>Place to execute arbitrary code</li>
+								<li>Executed when all module is loaded</li>
 							</ul>
 						</ul>
 						<aside class="notes">
@@ -197,15 +201,66 @@
 				<section>
 					<section>
 						<h1>Digest cycle</h1>
+						<h6>Keeps everyting in motion</h6>
 						<aside class="notes">
-							Now you are familiar about the boot process, let's talk about digest cycle, which is the process behind Angular 2-way data binding.
+							Now that we are familiar with the boot process, let's talk about how your application achieve to react to your interactions.
+							The process behind this called digest cycle.
+							.which is the process behind Angular 2-way data binding.
 							The main question here how does Angular know about data changes.
 							Actually Angular uses a very simple trick, it registers a watcher every time you create a binding. this watcher
 							If you interact with an Angular application it will respond to your actions,
 						</aside>
 					</section>
 					<section>
+						<ul>
+							<li>loop running after every interaction (in Angular context!) </li>
+							<li>compare scope variable new and old values (dirty checking)</li>
+							<li>if it finds any difference updates DOM</li>
+						</ul>
 						<img src="img/digest_cycle.png" alt="" />
+						<aside class="notes">
+							The power behind 2way data-binding
+						</aside>
+					</section>
+					<section>
+						<ul>
+							<li>maintains a watchlist per scope</li>
+							<li>the followings are creating a watcher (entry in the watchlist)</li>
+						</ul>
+						<p><pre><code><input ng-model="username"/> <!--ng-model creates a watcher-->
+username: {{username}} <!--bindings create watcher--></code></pre></p>
+							<p><pre><code>$scope.$watch('username', validate); //create watcher in ctrl
+
+function validate(oldVal, newWal){
+	console.log(oldVal,newVal);
+}</code></pre></p>
+					<ul>
+						<li>watchers can modify other scope variables -> creates a ripple effect -> application slowes down</li>
+						<li>digest can run maximum 10 times than angular throws error</li>
+					</ul>
+					<aside class="notes">
+
+					</aside>
+					</section>
+					<section class="iframe">
+						<iframe src="https://embed.plnkr.co/XaiQcYNEiaGcOksA9QJy/" frameborder="0"></iframe>
+					</section>
+					<section>
+						$apply and $digest
+						<ul>
+							<li>methods on every $scope object</li>
+							<li>$digest: starts digest loop</li>
+							<li>$apply: waits a fn as param, and calls $digest after fn executed</li>
+						</ul>
+					</section>
+					<section>
+						Best practices
+						<ul>
+							<li>the execution time of the digest loops affect application performance</li>
+							<li>try to keep watchers under 2000 per page</li>
+							<li>use simple objects on $scope to makes comparing fast</li>
+							<li>use Batarang or ng-stat to keep track of digest cycles</li>
+						</ul>
 					</section>
 				</section>
 				<section>

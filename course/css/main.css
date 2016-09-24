@@ -4,7 +4,7 @@
 }
 
 .slides{
-  background-image: url(../img/angularJs_sm.png), url(../img/epam.png);
+  background-image: url(../img/angularJs_sm.png) /*, url(../img/epam.png)*/;
   background-position: top right, top left;
   background-repeat: no-repeat, no-repeat;
   /*background-size: 10%;*/
