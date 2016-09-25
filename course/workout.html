@@ -20,8 +20,6 @@
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -42,7 +40,7 @@
 		<div class="reveal">
       <div class="slides">
 				<section>
-					<img id="angularLogo"src="img/angularJs.png">
+					<img id="angularLogo"src="img/angularJs_sm.png">
 					<h1>AngularJs</h1>
 					<h3>Best practices</h3>
 					<p>
@@ -201,25 +199,29 @@
 				<section>
 					<section>
 						<h1>Digest cycle</h1>
-						<h6>Keeps everyting in motion</h6>
+						<h6>Keeps everything in motion</h6>
 						<aside class="notes">
-							Now that we are familiar with the boot process, let's talk about how your application achieve to react to your interactions.
-							The process behind this called digest cycle.
-							.which is the process behind Angular 2-way data binding.
-							The main question here how does Angular know about data changes.
-							Actually Angular uses a very simple trick, it registers a watcher every time you create a binding. this watcher
-							If you interact with an Angular application it will respond to your actions,
+							Now that we are familiar with the boot process, let's talk about how Angular achieves to react to your interactions.
 						</aside>
 					</section>
 					<section>
 						<ul>
-							<li>loop running after every interaction (in Angular context!) </li>
+							<li>a loop running after every interaction (in Angular context!) </li>
 							<li>compare scope variable new and old values (dirty checking)</li>
-							<li>if it finds any difference updates DOM</li>
+							<li>no dirty scope -> updates DOM</li>
 						</ul>
 						<img src="img/digest_cycle.png" alt="" />
 						<aside class="notes">
-							The power behind 2way data-binding
+							The digest cycle is a core part of the Angular framework, basically it is a loop which runs after every action
+							which takes place in Angular context. That's the magic behind the data binding.
+							With every bindings you create between ctrl (directive) and template the framework creates a watcher and store those
+							in a list belongs to every scope.
+ 							When Angular detects any interactions (click, server response) it starts the digest loop.
+							The digest loop goes through every watcher and compares the scope variables' current values with the previos one.
+							It starts from the rootscope and goes through every child scope.
+							If it finds a watcher which changed it marks that scope dirty and runs a function assigned to the watcher.
+							Angular keeps running the digest loop while it finds dirty scope. When every scope is clean it updates the DOM
+							with the new values.
 						</aside>
 					</section>
 					<section>
@@ -228,7 +230,7 @@
 							<li>the followings are creating a watcher (entry in the watchlist)</li>
 						</ul>
 						<p><pre><code><input ng-model="username"/> <!--ng-model creates a watcher-->
-username: {{username}} <!--bindings create watcher--></code></pre></p>
+username: {{username}} <!--binding creates watcher--></code></pre></p>
 							<p><pre><code>$scope.$watch('username', validate); //create watcher in ctrl
 
 function validate(oldVal, newWal){
@@ -239,27 +241,53 @@ function validate(oldVal, newWal){
 						<li>digest can run maximum 10 times than angular throws error</li>
 					</ul>
 					<aside class="notes">
-
+						Angular keeps track of the watchers by scope, these are the possible expressions which create a watcher.
+						We can have ng-model, a simple binding, and a special method on scope called $watch. With watch you should
+						always specify which variable changes would you like to listen and what should happen after change (fn).
+						The function receives the old and new values. Watchers can create a ripple effect if modifies other scope variables
+						which keeps restarting digest loop which delays rerendering in this case the application start to stutter and
+						feels slow to the user. There is a maximum the digest can run in one cycle which is 10, if it is exceeded angular throws
+						and error and stops.
 					</aside>
 					</section>
 					<section class="iframe">
 						<iframe src="https://embed.plnkr.co/XaiQcYNEiaGcOksA9QJy/" frameborder="0"></iframe>
+						<aside class="notes">
+							An example app to digest cycle. Model + Binding + $watch.
+							Here I created a corner case which should not be present in Angular app. I've added a jQuery event handler which updates
+							the scope variable. About this update Angular has no clue. This update is happened outside of Angular context because of that
+							the digest loop does not started -> the DOM does not rendered. So why am I talking about Angular context? Why is it working
+							with ng-click but not with a simple event handler. The trick is actually really simple, ng-click simply call the digest loop
+							after the event handler executed. So how can we fix that? There are 2 Angular service you can call in this case: $digest, $apply.
+						</aside>
 					</section>
 					<section>
-						$apply and $digest
+						<h4>Manually start digest cycle</h4>
 						<ul>
-							<li>methods on every $scope object</li>
-							<li>$digest: starts digest loop</li>
-							<li>$apply: waits a fn as param, and calls $digest after fn executed</li>
+							<li>angular offers services to call digest loop</li>
+							<li>use $apply instead of $digest</li>
+							<li>use only in directives link function, not in controllers!</li>
 						</ul>
+						<p><pre><code>$scope.$digest()  // $digest: starts digest cycle from that scope!!!</code></pre></p>
+						<p><pre><code>$scope.$apply(function(){ /*...*/ })
+/* $apply: parameter is a fn, first executes fn
+   then call $digest from $rootScope */</code></pre></p>
+					 <aside class="notes">
+							Both is exposed on $scope objects. You should call one of these manually to start the digest loop. The difference is,
+							$digest calls the digest loop from the given scope, $apply starts always from rootscope, after the fn is executed. For
+							first sight $digest gives opportunity to some optimization, but it can be misleading because updates only part of the app.
+							Because of that the best practice to always use $apply. But where to use? Using it from the controllers are very dangerous,
+							it can cause a ripple effect, so the best use is in the directives link function.
+						<aside>
 					</section>
 					<section>
-						Best practices
+						<h4>Tips</h4>
 						<ul>
-							<li>the execution time of the digest loops affect application performance</li>
+							<li>use Angular services/directives instead of native JS fn ($timeout, $location, ng-click, ng-model)</li>
+							<li>the execution time of the digest loop affects application performance</li>
 							<li>try to keep watchers under 2000 per page</li>
 							<li>use simple objects on $scope to makes comparing fast</li>
-							<li>use Batarang or ng-stat to keep track of digest cycles</li>
+							<li>use <a href="https://github.com/angular/batarang">Batarang</a> or <a href="https://github.com/kentcdodds/ng-stats">ng-stat</a> to keep track of digest cycles</li>
 						</ul>
 					</section>
 				</section>
