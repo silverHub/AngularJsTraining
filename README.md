@@ -17,5 +17,3 @@
  * Digest cycle
  * Best practices - Architecture
  * Best practices - Performance
- * Angular based tools
- * Resources
