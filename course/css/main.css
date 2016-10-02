@@ -3,11 +3,14 @@
   height:10%;
 }
 
+.reveal section li mark {
+  font-size: 75%;
+}
+
 .slides{
   background-image: url(../img/angularJs_sm.png) /*, url(../img/epam.png)*/;
   background-position: top right, top left;
   background-repeat: no-repeat, no-repeat;
-  /*background-size: 10%;*/
 }
 
 .slides section img{
@@ -29,18 +32,6 @@ section iframe{
   list-style: none;
   text-align: center;
 }
-/*
-.resources a{
-
-  color: black;
-  display: inline-block;
-  width: 800px;
-
-}
-.resources a:hover{
-  color: black;
-  background-color:rgba(255, 255, 255, 0.8);"
-}*/
 
 .fontSize80 {
   font-size: 80% !important;
@@ -55,6 +46,15 @@ strong{
 .tiny{
   font-size: smaller;
 }
+
+.pull-right{
+  float: right;
+}
+
+code.emphasized{
+  font-weight: bolder;
+}
+
 iframe {
   border: 1px dotted lightgrey;
   width: 100%;

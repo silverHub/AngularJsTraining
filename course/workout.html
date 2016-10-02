@@ -49,48 +49,20 @@
 				</section>
 				<section>
 					<section>
-					<h2>Agenda</h2>
-					<ul class="fontSize80">
-						<li>Application bootstrap process</li>
-            <ul>
-              <li>Bootstrapping</li>
-							<li>App config and run block</li>
+						<h2>Agenda</h2>
+						<ul class="fontSize80">
+							<li>Application bootstrap process</li>
 							<li>Digest cycle</li>
-							<ul>
-									<li>Something happens out of the Angular context</li>
-							</ul>
-							<li>Manual bootstrapping</li>
-              <li>Services related to bootstrap</li>
-            </ul>
-						<li>Best practices</li>
-            <ul>
-							<li>Misc: style guide, UI bootstrap, Ionic frameworks, Batarang</li>
-							<li>How to architect your app</li>
-							<li>Nesting</li>
-							<li>Custom directives</li>
-              <li>Communication through events</li>
-              <li>Handle 3rd party components</li>
-							<li>Performance</li>
-							<ul>
-								<li>One time binding</li>
-								<li>Filter in ctrl</li>
-								<li>ngRepeat with index</li>
-								<li>configure to skip DOM node annotation</li>
-							</ul>
+							<li>Best practices - Architecture</li>
+							<li>Best practices - Performance</li>
+							<li>Angular based tools</li>
+	            <li>Resources</li>
 						</ul>
-            <li>Resources</li>
-					</ul>
 					</section>
-				</section>
-				<section>
 					<section>
-						<h1>Angular application anatomy</h1>
-						<h6>All in one place</h6>
-					</section>
-          <section>
-            <img class="width80" src="img/webapp.jpg" />
-            <aside class="notes">
-              Let's just have a short recap about the angular application structure.
+						<img class="width80" src="img/webapp.jpg" />
+						<aside class="notes">
+							Let's just have a short recap about the angular application structure.
 							In Angular the highest level containers are the modules. As we already know there is dedicated module
 							which loads first that one is called the root module, every other module should be referenced from there or
 							from any subsequent modules. Every module has a config section, I'll talk about that later.
@@ -98,15 +70,15 @@
 							which are basically the controller+template for a specific url. With the help of the routes you can easily split your
 							application to pages. If we go further down the hierarchy then ctrls can employ factories to outsource the business logic
 							and wiews can contain directives.
-            </aside>
-          </section>
+						</aside>
+					</section>
 					<section class="iframe">
 						<!-- Sample app for router -->
 						<iframe src="https://embed.plnkr.co/VWUIHAf17PXQsgGX6u0T/" frameborder="0"></iframe>
-						  <aside class="notes">
+							<aside class="notes">
 								This application is works fine, but we don't really understand yet entirely how. So let's dig deeper.
 							</aside>
-          </section>
+					</section>
 				</section>
 				<section>
 					<section>
@@ -157,21 +129,27 @@
 					</section>
           <section>
 						<p>
-							<strong>Question:</strong> what happens if you have no ng-app on the page?
+							<strong>Q1:</strong> what happens if you have no ng-app on the page?
 						</p>
 						<p class="fragment">
-							<strong>Question2:</strong> what happens if you have multiple ng-app on the page?
+							<strong>Q2:</strong> what happens if you have multiple ng-app on the page?
 						</p>
 						<p class="fragment">
-							There is a way to manually bootstrap independent modules:
+							<strong>Q2:</strong> what if I would like to run independent modules on a page?
 						</p>
-						<p><pre><code>angular.bootstrap(angular.element('#container'), ['Main']);</code></pre></p>
-						=
-						<p><pre class="html"><code><div id="container" ng-app="Main"><!-- Content --></div></code></pre></p>
+						<div class="fragment">
+							manual bootstrapping:
+							<p><pre><code>angular.bootstrap(angular.element('#container'), ['Main']);</code></pre></p>
+							=
+							<p><pre class="html"><code><div id="container" ng-app="Main"><!-- Content --></div></code></pre></p>
+						</div>
 						<aside class="notes">
 							A1: Nothings. The bootstrap process is not started, the views are not generated.
 							A2: First HTML tag with ng-app will be the root element, others will be ignored.
-							There is a way to manually bootstrap independent modules.
+							But what if I have an aggregator page whereto I delegate modules not related to each other, even coming from
+							different source. Possibly these modules loaded dynamically (through AJAX) so the first difficulty is that the module is not
+							there when DOM Ready is fired the second is that we haven't got a module which contains the rest on the page.
+							To solve these issues angular provides the way to start the booststrap manually.
 						</aside>
 					</section>
           <section class="iframe">
@@ -205,8 +183,9 @@
 						</aside>
 					</section>
 					<section>
+						<h4>Digest loop</h4>
 						<ul>
-							<li>a loop running after every interaction (in Angular context!) </li>
+							<li>a loop running after every interaction </li>
 							<li>compare scope variable new and old values (dirty checking)</li>
 							<li>no dirty scope -> updates DOM</li>
 						</ul>
@@ -225,6 +204,7 @@
 						</aside>
 					</section>
 					<section>
+						<h4>Inner working</h4>
 						<ul>
 							<li>maintains a watchlist per scope</li>
 							<li>the followings are creating a watcher (entry in the watchlist)</li>
@@ -265,7 +245,7 @@ function validate(oldVal, newWal){
 						<h4>Manually start digest cycle</h4>
 						<ul>
 							<li>angular offers services to call digest loop</li>
-							<li>use $apply instead of $digest</li>
+							<li>use <code class="emphasized">$apply</code> instead of <code class="emphasized">$digest</code></li>
 							<li>use only in directives link function, not in controllers!</li>
 						</ul>
 						<p><pre><code>$scope.$digest()  // $digest: starts digest cycle from that scope!!!</code></pre></p>
@@ -283,22 +263,321 @@ function validate(oldVal, newWal){
 					<section>
 						<h4>Tips</h4>
 						<ul>
-							<li>use Angular services/directives instead of native JS fn ($timeout, $location, ng-click, ng-model)</li>
+							<li>use Angular services/directives instead of native JS fn (<code class="emphasized">$http, $timeout/$interval, $location, ng-click, ng-mouse*, ng-model, ng-change</code>)</li>
 							<li>the execution time of the digest loop affects application performance</li>
 							<li>try to keep watchers under 2000 per page</li>
-							<li>use simple objects on $scope to makes comparing fast</li>
+							<li>use simple objects on <code class="emphasized">$scope</code> to makes comparing fast</li>
 							<li>use <a href="https://github.com/angular/batarang">Batarang</a> or <a href="https://github.com/kentcdodds/ng-stats">ng-stat</a> to keep track of digest cycles</li>
 						</ul>
 					</section>
 				</section>
 				<section>
 					<section>
-						Best practices - Architecture
+						<h1>App Architecture</h1>
+						<h4>Best practices</h4>
+					</section>
+					<section>
+						<h4><strong>LIFT</strong> principle</h4>
+						<ul>
+							<li><strong>L</strong>ocating our code is easy</li>
+							<li><strong>I</strong>dentify code at a glance</li>
+							<li><strong>F</strong>lat structure as long as we can</li>
+							<li><strong>T</strong>ry to stay DRY (Don’t Repeat Yourself) or T-DRY</li>
+						</ul>
+						<aside class="notes">
+							The main guide in our app architecture is the LIFT principle, adhering to these guidelines strongly support
+							the readability of your code which is the most important factor in JS. How can you obey easily to these guidelines?
+						</aside>
+					</section>
+					<section>
+						<h4>
+							File/folder structure
+						</h4>
+						<ul>
+							<img src="img/folder_structure.png" class="pull-right" alt="Folder structure" />
+							<li>folders-by-feature </li>
+							<li>folder structure should reflect your app architecture</li>
+							<li>1 module per file (<code class="emphasized">navigation.js</code>)</li>
+							<li>split modules to multiple file based on types (<code class="emphasized">navigation.controllers.js, navigation.services.js</code>)</li>
+							<li>put template/unit test file next to the file which uses/refers to (<code class="emphasized">navigation.tmp.html, navigation.spec.js</code>)</li>
+						</ul>
+						<aside class="notes">
+								Use structuring based on features and not folders-by-type, this makes location of your code easier (example). Give reasonable names,
+								keep the one module per file principle that makes easier to identify the file content. For example navigation.js
+								contains the module definition and controllers services are just reference that module, this could cause problems
+								when aggregate your JS, because the declaration should precede the references. We don't have a strict rule when to split,
+								usually we depend on the gut feeling, if the module register only a controller and a service we are not creating
+								new files for those, however if it has multiple controllers and services it may makes sense to split. You should agree
+								on that in your team. Try to keep your folder structure as flat as possible after 4 level humans tend to lost track.
+						</aside>
+					</section>
+					<section>
+						<h4>Modules</h4>
+						<ul>
+							<li>O1: one module to rule them all</li>
+							<li>O2: every module specifies its dependencies</li>
+							<li>module categories</li>
+							<ul>
+								 <li><strong>root:</strong> aggregator module</li>
+								 <li><strong>component:</strong> implements a specific functionality</li>
+								 <li><strong>common:</strong> low-level services</li>
+							</ul>
+							<li>module definitions: IIFE + named functions</li>
+						</ul>
+						<img src="img/module_definition.png" alt="Module definition" />
+						<aside class="notes">
+							Modules are the most basic structuring entity you have. Generally you should try to create small modules with
+							one responsibility only. As your application grows you will define some aggregator modules, which encapsulates a
+							feature area, a feature or a reusable block. You have two option how to design the module dependencies,
+							option 1 you includes everything in the root module, option 2 you will specify explicitly the dependencies of every module.
+
+							We uses O1.The advantage of that is when you are adding a new module you need to add it once and then it accessible from every module.
+
+							Most of the apps have the following module categories: root, component, common.
+							Common modules should be implemented as general as possible, those are low level entities used widely in the app.
+							Component modules focuses on a feature or a fraction of a feature and built on common modules, you may introduce
+							a new level of aggregator modules between the root and components that's fine. The root module is the highest in
+							the hierarchy, it is the one which is bootstrapped mostly referencing the component modules or everything.
+							Let's take a look to the guidelines of the module syntax. All files start with IIFE, to avoid polluting the global
+							namespace, then we use chaining when declaring the module and registering the services. We use named functions to define
+							the service body, with this setup we can identify the services registered to the module with a quick glance, that improves
+							code readability.
+						</aside>
+					</section>
+					<section class="iframe">
+						<h4>Angular <strong>Quirk</strong> regarding dependency injection</h4>
+						<iframe src="https://embed.plnkr.co/nHUR5mMuVhVdImGL2RGv/" frameborder="0"></iframe>
+						<aside class="notes">
+							Angular does not handle dependencies the way you imagine :)
+							In the end everything goes in one sack, so if you have 2 dependency with the same name, the ones loaded later
+							will overwrite the first one. Sorry, that's life.
+						</aside>
+					</section>
+					<section>
+						<h4>Controller definition</h4>
+						<img src="img/ctrl_definition.png" alt="Controller definition" />
+					</section>
+					<section>
+						<h4>Controllers</h4>
+						<ul>
+							<li>keep controllers focused</li>
+							<li>defer logic to services</li>
+							<li>define bindings at the beginning</li>
+							<li>hide implementation in function declarations</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Controller as syntax </h4>
+						<ul>
+							<img src="img/ctrl_as_definition.png" class="pull-right" alt="ControllerAs definition example" />
+							<li>use <code class="emphasized">controllerAs</code> syntax</li>
+							<li>readable nested controllers in template</li>
+							<img src="img/controller_example.png" class="pull-right" alt="ControllerAs syntax example" />
+						</ul>
+					</section>
+					<section>
+						<h4>Service definition</h4>
+						<img src="img/service_definition.png" alt="Service definition" />
+					</section>
+					<section>
+						<h4>Services</h4>
+						<ul>
+							<li>every service (factory, service, filter) is <strong>singleton!</strong></li>
+							<li>data services -> contains server queries</li>
+							<li>async services should return a promise (<code class="emphasized">$q</code>)</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Directive definition</h4>
+						<img src="img/directive_definition.png" alt="Directive definition" />
+					</section>
+					<section>
+						<h4>Directives</h4>
+						<ul>
+							<li>always prefix your directive: <code class="emphasized">&lt;xyz-header-panel /&gt;</code></li>
+							<li>link function is the place to manipulate DOM</li>
+							<li>restrict to elements and attributes</li>
+							<li>you can define directives with <strong>the same name!</strong></li>
+							<li>directives should clean up when they are removed</li>
+							<ul>
+								<li><code class="emphasized">scope.$on('$destroy', ...)</code></li>
+								<li><code class="emphasized">element.$on('$destroy', ...)</code></li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h4>How to integrate third party libraries</h4>
+						<ul>
+							<li>separate libraries outside of the app folder</li>
+							<li>create constants for vendor globals</li>
+							<li>use proxy services</li>
+						</ul>
+						<aside class="notes">
+							Encapsulate the communication with creating a service which serves as wrapper for the 3rd party library.
+							After that you can inject the proxy in your angular application wherever a call is needed to the library.
+							If you update/swap the library you need to touch only one file.
+						</aside>
+					</section>
+					<section>
+						<h4>Tips</h4>
+						<ul>
+							<li>learn to use decorator service!</li>
+<pre><code>
+angular.module('myApp', [])
+.decorator([ '$log', logDecorator);
+
+function logDecorator($delegate) {
+
+	var originalWarn = $delegate.warn;
+	$delegate.warn = function decoratedWarn(msg) {
+		msg = 'XYZ: ' + msg;
+		originalWarn.apply($delegate, arguments);
+	};
+	return $delegate;
+}</code></pre>
+							<li>global error handling with <code class="emphasized"> $exceptionHandler</code> </li>
+							<li>for interapp communication use the Angular event system (<code class="emphasized">$emit, $broadcast, $on</code>)</li>
+						</ul>
+						<aside class="notes">
+							Decorator service is based on the well known decorator pattern, my opinion is that it is often neglected however
+							it has great capabilities. Basically you can modify the way of work of any service even the built-in ones.
+							For example let's consider the case when you would like to cache service responses, with a decorator you can
+							easily create a caching layer around the $http and not modify the original service. Here we have a log example.
+							You can implement global error handling through $exceptionHandler which triggers by thrown errors.
+							If you would like to pass data from one ctrl to another which are not related (nested) you can use the angular
+							event system, all the broadcast/emit/on method available on the scope object. Broadcast sends an event down
+							in the hierarchy, emit sends up. With 'on' you can listen on the custom events. The advantage of using this event system
+							is that the event handlers automatically detach when the scope object garbage collected.
+						</aside>
+					</section>
+					<section>
+						<h4>is jQuery needed?</h4>
+						<p>
+							jQuery is not needed to run Angular. If it is loaded then Angular swap jQLite with it.
+							If you need to use the selector functionality, use the <a href="http://sizzlejs.com/">Sizzle engine</a> from jQuery as a standalone library.
+						</p>
+					</section>
+					<section>
+						<h4>Code quality, plugins</h4>
+						<ul>
+							<li>use a linter for JS: <a href="http://eslint.org/">Eslint</a></li>
+							<li>style guide: <a href="https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md">John Papa Angular 1 style guide</a></li>
+							<li>for routing use <a href="https://github.com/angular-ui/ui-router">UI router</a> instead of angular router!</li>
+							<li>for i18n use <a href="https://github.com/angular-translate/angular-translate">ng-translate</a></li>
+							<li>Unit tests</li>
+							<ul>
+								<li>Test runner: <a href="https://karma-runner.github.io/1.0/index.html">Karma</a></li>
+								<li>Test library: <a href="http://jasmine.github.io/edge/introduction.html">Jasmine</a> / <a href="https://mochajs.org/">Mocha</a></li>
+								<li>E2E: <a href="http://nightwatchjs.org/">Nightwatch</a></li>
+							</ul>
+						</ul>
 					</section>
 				</section>
 				<section>
 					<section>
-						Best practices - Performance
+						<h1>Performance tips</h1>
+					</section>
+					<section>
+						<h4>Cause of performance issues</h4>
+						<ul>
+							<li>too many watchers (<mark>use Batarang to benchmark your watchers</mark>)</li>
+							<li>binding heavy functions</li>
+							<li>improper use of ng-repeat</li>
+
+						</ul>
+						<aside class="notes">
+							Let's talk about first the Angular performance issues. You can read everywhere that React is much more faster
+							than Angular when comes to rendering. The thing is this is not entirely true, actually if you pick a recent version
+							- somewhere up from 1.2 -	Angular is performant, performant enough for most cases you will face. I have to say that
+							during the 2 years we did not have any performance issue in WMO.
+							But it is also true that you can ruin this performance easily if you are not obeying some basic rules.
+							So what are the main reasons of a performant issues?
+							When the digest loop slows down your app start to feel sluggish, most of the time the digest loop slows down because
+							the heavy use of watchers, in this case you should restructure your page or your code. Common mistake is when
+							binding functions which runs long to the view. Maybe the most unperformant part of the framework is the ng-repeat,
+							which is used when you display a collection.
+						</aside>
+					</section>
+					<section>
+						<h5><strong>Tip1:</strong> skip DOM annotation</h5>
+<pre><code>myApp.config(['$compileProvider', function ($compileProvider) {
+    $compileProvider.debugInfoEnabled(false);
+}]);</code></pre>
+					<img src="img/dom_annotation.png" alt="DOM annotation" />
+					<aside class="notes">
+						Angular by default annotate DOM for debugging purposes. It provides a method to disable this for production code
+						which just makes a little bit faster the DOM generation.
+						Surprisingly few webapplication uses this feature.
+					</aside>
+					</section>
+					<section>
+						<h4><strong>Tip2:</strong> use ng-if instead of ng-show</h4>
+						<li><code>ng-if:</code> not rendering the element </li>
+						<li><code>ng-show/ng-hide:</code> change the <code>display</code> CSS property </li>
+					</section>
+					<section>
+						<h4><strong>Tip3:</strong> use one time binding</h4>
+						<ul>
+							<li>to reduce the number of watchers (<mark>from v1.3</mark>)</li>
+							<li><code> :: </code>notation to allow one time binding</li>
+							<li>makes sense where you don't need 2 way binding</li>
+						</ul>
+						<pre><code><span>{{::translatedValue}}</span></code></pre>
+						<aside class="notes">
+							The classic example how you can reduce the watchers are the one time binding, you should use these
+							in cases when you know that the resolved value will not be changed in the subsequent digest cycles.
+							For example a page title which comes from the translation file and should be resolved once.
+						</aside>
+					</section>
+					<section>
+						<h4><strong>Tip4:</strong> use ng-repeat with 'track by'</h4>
+						<ul>
+							<li>ng-repeat identifies DOM elements based on the id (<mark>from v1.2</mark>)</li>
+						</ul>
+						<pre><code>//wrong
+<ul class="tasks">
+    <li ng-repeat="task in tasks">
+        {{task.id}}: {{task.title}}
+    </li>
+</ul>
+
+//correct
+<ul class="tasks">
+    <li ng-repeat="task in tasks track by track.id">
+        {{task.id}}: {{task.title}}
+    </li>
+</ul>
+</code></pre>
+					<aside class="notes">
+						This part is important, you should always use the track by with your ng-repeat! Why? Because Angualar identifies
+						the DOM nodes based on an ID you are specifying this Id with track by, if you are not using it Angular generates internal Ids.
+						These Ids will be regenerated when you have new server response, that means all the DOM nodes will be rendered again.
+					</aside>
+					</section>
+					<section>
+						<h4><strong>Tip5:</strong> use ngModelOptions</h4>
+						<ul>
+							<li>control model updates -> limit digest cycles (<mark>from v1.3</mark>)</li>
+							<li><strong>debounce:</strong> model is updated after this time interval (in msec)  </code></li>
+							<li><strong>updateOn:</strong> action which triggers model update </code></li>
+						</ul>
+<pre><code class="html"> // input updated every 250msec if user typing
+<input type="text"
+  ng-model="test"
+  ng-model-options="{
+    'updateOn': 'default',
+    'debounce': 250 }">
+
+// input immediately updated when loses focus
+<input type="text"
+  ng-model="test"
+  ng-model-options="{
+    'updateOn': 'blur',
+    'debounce': 0 }">
+</code></pre>
+					<aside class="notes">
+						With ngModelOptions you can finetune how your ng-model will updated when the user types in the input field.
+					</aside>
 					</section>
 				</section>
 				<section class="resources" >
@@ -306,6 +585,7 @@ function validate(oldVal, newWal){
 					<ul >
             <li><a href="http://silverhub.github.io/AngularJsTraining">Presentation slides</a></li>
 						<li><a target="_blank" href="https://angularjs.org/">AngularJs doc</a></li>
+						<li><a target="_blank" href="https://www.airpair.com/angularjs/posts/angularjs-performance-large-applications#6-1-large-objects-and-server-calls-">Angular performance</a></li>
 						<li><a target="_blank" href="https://github.com/johnpapa/angular-styleguide/tree/master/a1">AngularJs style guide</a></li>
 					</ul>
 				</section>
