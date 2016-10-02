@@ -11,3 +11,11 @@
   * Modules  
   * Router  
  * SPA
+
+## Best practices session content
+ * Application bootstrap process
+ * Digest cycle
+ * Best practices - Architecture
+ * Best practices - Performance
+ * Angular based tools
+ * Resources
