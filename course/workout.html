@@ -209,9 +209,9 @@
 							<li>maintains a watchlist per scope</li>
 							<li>the followings are creating a watcher (entry in the watchlist)</li>
 						</ul>
-						<p><pre><code><input ng-model="username"/> <!--ng-model creates a watcher-->
+						<p><pre><code class="html"><input ng-model="username"/> <!--ng-model creates a watcher-->
 username: {{username}} <!--binding creates watcher--></code></pre></p>
-							<p><pre><code>$scope.$watch('username', validate); //create watcher in ctrl
+							<p><pre><code class="js">$scope.$watch('username', validate); //create watcher in ctrl
 
 function validate(oldVal, newWal){
 	console.log(oldVal,newVal);
@@ -248,8 +248,8 @@ function validate(oldVal, newWal){
 							<li>use <code class="emphasized">$apply</code> instead of <code class="emphasized">$digest</code></li>
 							<li>use only in directives link function, not in controllers!</li>
 						</ul>
-						<p><pre><code>$scope.$digest()  // $digest: starts digest cycle from that scope!!!</code></pre></p>
-						<p><pre><code>$scope.$apply(function(){ /*...*/ })
+						<p><pre><code class="js">$scope.$digest()  // $digest: starts digest cycle from that scope!!!</code></pre></p>
+						<p><pre><code class="js">$scope.$apply(function(){ /*...*/ })
 /* $apply: parameter is a fn, first executes fn
    then call $digest from $rootScope */</code></pre></p>
 					 <aside class="notes">
@@ -422,7 +422,7 @@ function validate(oldVal, newWal){
 						<h4>Tips</h4>
 						<ul>
 							<li>learn to use decorator service!</li>
-<pre><code>
+<pre><code class="js">
 angular.module('myApp', [])
 .decorator([ '$log', logDecorator);
 
@@ -500,7 +500,7 @@ function logDecorator($delegate) {
 					</section>
 					<section>
 						<h5><strong>Tip1:</strong> skip DOM annotation</h5>
-<pre><code>myApp.config(['$compileProvider', function ($compileProvider) {
+<pre><code class="js">myApp.config(['$compileProvider', function ($compileProvider) {
     $compileProvider.debugInfoEnabled(false);
 }]);</code></pre>
 					<img src="img/dom_annotation.png" alt="DOM annotation" />
@@ -522,7 +522,7 @@ function logDecorator($delegate) {
 							<li><code> :: </code>notation to allow one time binding</li>
 							<li>makes sense where you don't need 2 way binding</li>
 						</ul>
-						<pre><code><span>{{::translatedValue}}</span></code></pre>
+						<pre><code class="html"><span>{{::translatedValue}}</span></code></pre>
 						<aside class="notes">
 							The classic example how you can reduce the watchers are the one time binding, you should use these
 							in cases when you know that the resolved value will not be changed in the subsequent digest cycles.
@@ -534,7 +534,7 @@ function logDecorator($delegate) {
 						<ul>
 							<li>ng-repeat identifies DOM elements based on the id (<mark>from v1.2</mark>)</li>
 						</ul>
-						<pre><code>//wrong
+						<pre><code class="html">//wrong
 <ul class="tasks">
     <li ng-repeat="task in tasks">
         {{task.id}}: {{task.title}}
