@@ -250,13 +250,13 @@ function validate(oldVal, newWal){
 						<p><pre><code class="js">$scope.$apply(function(){ /*...*/ })
 /* $apply: parameter is a fn, first executes fn
    then call $digest from $rootScope */</code></pre></p>
-					 <aside class="notes">
-							Both is exposed on $scope objects. You should call one of these manually to start the digest loop. The difference is,
-							$digest calls the digest loop from the given scope, $apply starts always from rootscope, after the fn is executed. For
-							first sight $digest gives opportunity to some optimization, but it can be misleading because updates only part of the app.
-							Because of that the best practice to always use $apply. But where to use? Using it from the controllers are very dangerous,
-							it can cause a ripple effect, so the best use is in the directives link function.
-						<aside>
+						<aside class="notes">
+								Both is exposed on $scope objects. You should call one of these manually to start the digest loop. The difference is,
+								$digest calls the digest loop from the given scope, $apply starts always from rootscope, after the fn is executed. For
+								first sight $digest gives opportunity to some optimization, but it can be misleading because updates only part of the app.
+								Because of that the best practice to always use $apply. But where to use? Using it from the controllers are very dangerous,
+								it can cause a ripple effect, so the best use is in the directives link function.
+						</aside>
 					</section>
 					<section>
 						<h4>Tips</h4>
