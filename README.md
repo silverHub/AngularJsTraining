@@ -1,6 +1,6 @@
 # AngularJs Training course
 
-## Warmup session content
+## [Warmup session](http://silverhub.github.io/AngularJsTraining/course/warmup.html) content
  * Key features
  * Behind the scenes  
  * Angular application building blocks  
@@ -10,9 +10,9 @@
   * Services / Factories  
   * Modules  
   * Router  
- * SPA
+ * SPA  
 
-## Best practices session content
+## [Best practices session](http://silverhub.github.io/AngularJsTraining/course/workout.html) content
  * Application bootstrap process
  * Digest cycle
  * Best practices - Architecture
