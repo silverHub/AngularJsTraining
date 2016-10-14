@@ -138,8 +138,11 @@
 							<ul>
 								<li>Place to preconfigure your services</li>
 								<li>You can inject providers and constants only</li>
-								<li>Providers are special services which provides configuration options before instance creation</li>
-								<li>e.g. $route -> $routeProvider</li>
+								<ul>
+									<li>$route -> $routeProvider</li>
+									<li>$translate -> $translateProvider</li>
+								</ul>
+
 							</ul>
 							<li>Module <strong>run block</strong></li>
 							<ul>
@@ -148,7 +151,7 @@
 							</ul>
 						</ul>
 						<aside class="notes">
-							You can use these special blocks to preconfigure your services or execute some arbitratry code.
+							You can use these special blocks to pre-configure your services or execute some arbitrary code.
 							Both parameter is a function which will be run before the service instances created.
 							Very important that the injection type is limited.
 						</aside>
