@@ -46,6 +46,10 @@
 					<p>
 						<small>Created by <a href="https://github.com/silverHub/AngularJsTraining">Tamas Hoffman</a></small>
 					</p>
+                    <aside class="notes">
+                        Welcome everybody on the second Angular training session where we will concentrate on Angular best practices,
+                        weak points of the framework and a little bit about the internal working.
+                    </aside>
 				</section>
 				<section>
 					<section>
@@ -56,14 +60,26 @@
 							<li>Best practices - Architecture</li>
 							<li>Best practices - Performance</li>
 						</ul>
+                        <aside class="notes">
+                            Let's see our agenda, first I will talk about the bootstrap process, we will see how can we
+                            manually bootstrap an application and why it is needed. Then we will dig into the inner workings of the
+                            framework, inspect the digest cycle and learn how to control the digest cycle with the built in services.
+                            After that I will talk about how our application is designed from architecture point of view and share
+                            some tipps about performance.
+                        </aside>
 					</section>
 					<section>
-						<h1>Project facts</h1>
+						<h2>Project facts</h2>
                         <h3><strong>83</strong> modules</h3>
                         <h3><strong>81</strong> controller</h3>
                         <h3><strong>71</strong> factory</h3>
                         <h3><strong>0</strong> service</h3>
                         <h3><strong>50</strong> directive</h3>
+                        <h3><strong>&#8776;500</strong> unit tests</h3>
+                        <aside class="notes">
+                            Before we start with our main agenda I would like to talk about my project. Currently my project is middle-sized,
+                            you can see the data on the screen.
+                        </aside>
 					</section>
 					<section>
 						<img class="width80" src="img/webapp.jpg" />
