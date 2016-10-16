@@ -227,7 +227,7 @@
  							When Angular detects any interactions (click, server response) it starts the digest loop.
 							The digest loop goes through every watcher and compares the scope variables' current values with the previos one.
 							It starts from the rootscope and goes through every child scope.
-							If it finds a watcher which changed it marks that scope dirty and runs a function assigned to the watcher.
+							If it finds a mismatch it marks that scope dirty and runs a function assigned to the watcher.
 							Angular keeps running the digest loop while it finds dirty scope. When every scope is clean it updates the DOM
 							with the new values.
 						</aside>
@@ -245,10 +245,6 @@ username: {{username}} <!--binding creates watcher--></code></pre></p>
 function validate(oldVal, newWal){
 	console.log(oldVal,newVal);
 }</code></pre></p>
-					<ul>
-						<li>watchers can modify other scope variables -> creates a ripple effect -> application slowes down</li>
-						<li>digest can run maximum 10 times than angular throws error</li>
-					</ul>
 					<aside class="notes">
 						Angular keeps track of the watchers by scope, these are the possible expressions which create a watcher.
 						We can have ng-model, a simple binding, and a special method on scope called $watch. With watch you should
@@ -270,8 +266,16 @@ function validate(oldVal, newWal){
 							after the event handler executed. So how can we fix that? There are 2 Angular service you can call in this case: $digest, $apply.
 						</aside>
 					</section>
-					<section>
-						<h4>Manually start digest cycle</h4>
+                    <section>
+                        <h4>Performance considerations</h4>
+                        <ul>
+                            <li>the execution time of the digest loop affects application performance</li>
+                            <li>watchers can modify other scope variables -> creates a ripple effect -> application slowes down</li>
+                            <li>digest can run maximum 10 times than angular throws error</li>
+                        </ul>
+                    </section>
+                    <section>
+						<h4>How to control digest cycle</h4>
 						<ul>
 							<li>angular offers services to call digest loop</li>
 							<li>use <code class="emphasized">$apply</code> instead of <code class="emphasized">$digest</code></li>
@@ -293,8 +297,8 @@ function validate(oldVal, newWal){
 						<h4>Tips</h4>
 						<ul>
 							<li>use Angular services/directives instead of native JS fn (<code class="emphasized">$http, $timeout/$interval, $location, ng-click, ng-mouse*, ng-model, ng-change</code>)</li>
-							<li>the execution time of the digest loop affects application performance</li>
 							<li>try to keep watchers under 2000 per page</li>
+                            <li>avoid using functions in bindings</li>
 							<li>use simple objects on <code class="emphasized">$scope</code> to makes comparing fast</li>
 							<li>use <a href="https://github.com/angular/batarang">Batarang</a> or <a href="https://github.com/kentcdodds/ng-stats">ng-stat</a> to keep track of digest cycles</li>
 						</ul>
@@ -437,7 +441,7 @@ function validate(oldVal, newWal){
 					<section>
 						<h4>How to integrate third party libraries</h4>
 						<ul>
-							<li>separate libraries outside of the app folder</li>
+							<li>store outside of the app folder</li>
 							<li>create constants for vendor globals</li>
 							<li>use proxy services</li>
 						</ul>
@@ -481,10 +485,13 @@ function logDecorator($delegate) {
 					</section>
 					<section>
 						<h4>is jQuery needed?</h4>
-						<p>
-							jQuery is not needed to run Angular. If it is loaded then Angular swap jQLite with it.
-							If you need to use the selector functionality, use the <a href="http://sizzlejs.com/">Sizzle engine</a> from jQuery as a standalone library.
-						</p>
+                        <ul>
+                            <li>jQuery is not needed to run Angular</li>
+                            <li>Angular contains <a href="https://docs.angularjs.org/api/ng/function/angular.element">jQLite</a> <strong>by default</strong></li>
+                            <li>Angular swaps jQLite with jQuery instance</li>
+                            <li>Tip: if you need the selector functionality but don't want to load jQuery use the use the <a href="http://sizzlejs.com/">Sizzle engine</a> from jQuery as a standalone library </li>
+                        </ul>
+                    <pre><code type="js">angular.element(document).find('h2'); //limited to tagnames</code></pre>
 					</section>
 					<section>
 						<h4>Code quality, plugins</h4>
